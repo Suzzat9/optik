@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import UploadSerializer
 import pandas as pd
+from .hfc_checks import *
 
 
 class UploadAPIView(APIView):
@@ -27,6 +28,7 @@ class UploadAPIView(APIView):
             print(datafile.content_type)
             if datafile:
                 df = pd.read_excel(datafile)
+                duplicates(df, 0)
                 return Response(
                     {"status": True, "message": "File successfully read"},
                     status=status.HTTP_201_CREATED,
