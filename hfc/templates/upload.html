@@ -1,13 +1,27 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Upload File</title>
-    </head>
-    <body>
-        <h1>Upload an Excel File</h1>
-        <form method="post" enctype="multipart/form-data">
-            <input type="file" name="file_uploaded" accept=".xlsx,.xls,.csv">
-            <button type="submit">Upload</button>
-        </form>
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content-wrapper maximum-width align-center">
+<h1 class="purple">Upload an Excel File</h1>
+<form method="post" enctype="multipart/form-data">
+    <div class="content-wrapper maximum-width align-center button-div">
+        <label id="file-upload-button" for="file-upload" class="custom-file-upload">
+            <i class="fa fa-cloud-upload"></i> Browse File
+        </label>        
+        <input id="file-upload" style="display:none;" type="file" name="file_uploaded" accept=".xlsx,.xls,.csv" onchange="displayFileName()">
+        <span id="file-name" style="margin-left: 10px;">No file chosen</span>
+        <button class="style-button" type="submit">Upload</button>
+    </div>
+</form>
+</div>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script>
+function displayFileName() {
+    var input = document.getElementById('file-upload');
+    var fileName = input.files[0] ? input.files[0].name : 'No file chosen';
+    document.getElementById('file-name').textContent = fileName;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,88 @@
+@import url('https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.purple {
+    color: #343482;
+}
+
+.content-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.maximum-width {
+    max-width: 90%;
+}
+
+.header-logo {
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 20px;
+    margin-top: -20%;
+}
+
+.header {
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 40px;
+}
+
+.logo {
+    max-width: 20%;
+    max-height: 20%;
+    margin-left: -5%;
+    margin-top: -5%;
+}
+
+.flex-vertical {
+    max-width: 20%;
+    max-height: 50%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0px;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.align-center {
+    text-align: center;
+
+}
+
+.font-fam {
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.style-button {
+    font-size: 20px;
+    margin-top: 10px;
+    width: 150px;
+    height: 50px;
+    color: #525F8D;
+    background-color: #FFFFFF;
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.button-div {
+    width: 150px;
+    height: 200px;
+}

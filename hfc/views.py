@@ -29,6 +29,7 @@ class UploadAPIView(APIView):
             if datafile:
                 df = pd.read_excel(datafile)
                 duplicates(df, 0)
+                # results.html
                 return Response(
                     {"status": True, "message": "File successfully read"},
                     status=status.HTTP_201_CREATED,
