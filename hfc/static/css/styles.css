@@ -55,11 +55,14 @@ body {
 
 .align-center {
     text-align: center;
-
 }
 
 .font-fam {
     font-family: "Nunito Sans", sans-serif;
+}
+
+.left-45 {
+    margin-left: 45%;
 }
 
 .style-button {

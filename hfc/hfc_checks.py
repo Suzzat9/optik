@@ -3,7 +3,11 @@ import pandas as pd
 
 
 # Checking for duplicates in respondent id
-def duplicates(df: pd.DataFrame, id_column: int):
-    df["dup_id"] = df.duplicated(subset=df.columns[0])
+def duplicates(
+    df: pd.DataFrame, respondent_id, surveyor_id, date, start_time, end_time
+):
+    df["dup_id"] = df.duplicated(subset=[respondent_id])
     data_dup = df[df["dup_id"] == True]
-    print(data_dup.iloc[:, :10])
+    results = data_dup[[respondent_id, surveyor_id, date, start_time, end_time]]
+    print(results)
+    return results

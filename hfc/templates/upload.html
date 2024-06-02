@@ -3,25 +3,35 @@
 {% block content %}
 <div class="content-wrapper maximum-width align-center">
 <h1 class="purple">Upload an Excel File</h1>
-<form method="post" enctype="multipart/form-data">
-    <div class="content-wrapper maximum-width align-center button-div">
-        <label id="file-upload-button" for="file-upload" class="custom-file-upload">
-            <i class="fa fa-cloud-upload"></i> Browse File
-        </label>        
-        <input id="file-upload" style="display:none;" type="file" name="file_uploaded" accept=".xlsx,.xls,.csv" onchange="displayFileName()">
-        <span id="file-name" style="margin-left: 10px;">No file chosen</span>
-        <button class="style-button" type="submit">Upload</button>
-    </div>
+<form method="post" class="align-center" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        <div style="margin: 1.5em;">
+            <label class="" id="id_{{ forloop.counter }}">{{ field.label }}</label>
+                {{ field }}
+        </div>
+        {% for error in field.errors %}
+            <p style="color: red;">{{error}} </p>
+            {% endfor %}
+        {% endfor %}
+        {% if form.non_field_errors %}
+            <div style="color: red;">
+                <p> {{form.non_field_errors}} </p>
+            </div>
+        {% endif %}
+        <button id="clear">Clear file </button>
+        <div class="content-wrapper maximum-width align-center">
+        <button class="style-button left-45" type="submit">Upload</button>
+        </div>
+</form>
 </form>
 </div>
 {% endblock %}
 
 {% block body_javascript_extra %}
 <script>
-function displayFileName() {
-    var input = document.getElementById('file-upload');
-    var fileName = input.files[0] ? input.files[0].name : 'No file chosen';
-    document.getElementById('file-name').textContent = fileName;
-}
+document.getElementById("clear").addEventListener("click", function () {
+    document.getElementById("id_file").value = "";
+}, false);
 </script>
 {% endblock %}

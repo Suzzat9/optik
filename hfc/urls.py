@@ -11,5 +11,6 @@ from rest_framework import routers
 urlpatterns = [
     path("admin/", admin.site.urls),
     # path("", include(router.urls)),
-    path("import/", UploadAPIView.as_view(), name="import-api"),
+    path("import/", upload_datafile, name="import"),
+    path("analysis-result/", analysis_result, name="analysis-result"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
