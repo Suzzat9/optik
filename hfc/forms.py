@@ -18,6 +18,15 @@ class DataDetails(forms.Form):
     end_time_field = forms.CharField(
         max_length=50, label="Survey end time field", required=True
     )
+    # Validations 
+    min_duration_mins = forms.IntegerField(label="Minimum Survey Duration in minutes")
+    max_duration_mins = forms.IntegerField(label="Maximum Survey Duration in minutes")
+
+    # Total number of surveys completed till date, number of surveys done daily 
+
+    # Columns to plot - column names separated by commas (no spaces)
+    categorical_fields = forms.CharField(max_length=2000, label="Categorical Variables to Plot", required=False)
+    
     file = forms.FileField(
         validators=[FileExtensionValidator(allowed_extensions=["xlsx", "csv"])],
         required=True,

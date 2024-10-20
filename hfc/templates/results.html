@@ -2,11 +2,36 @@
 
 {% block content %}
 <div class="content-wrapper maximum-width align-center">
-    {{ analysis_result }}
+    <div>
+        <h2> Duplicate Surveys </h2>
+        {{ duplicates|safe }}
+    <div>
+        <h2> Surveyor Productivity </h2>
+        <h3> Short Surveys </h3>
+        <div> {{ short_surveys|safe }} </div>
+        <h3> Long Surveys </h3>
+        <div> {{ long_surveys|safe }} </div>
+    </div>
+    <div class="categorical-vars">
+        {% for key, value in categorical_charts.items %}
+        <div id="{{ key }}">
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+    </div>
 </div>
 {% endblock %}
 
 {% block body_javascript_extra %}
 <script>
+    const categData = {{ categorical_charts|safe }};
+
+    Object.keys(categData).forEach(key => {
+        //console.log(key, categData[key]);
+        simpleBar(categData[key], key, key, key,);
+    });
+        
+    
 </script>
 {% endblock %}

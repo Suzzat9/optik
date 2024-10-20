@@ -8,6 +8,7 @@ from .forms import DataDetails
 import pandas as pd
 from django.http import HttpResponse
 from .hfc_checks import *
+from json import loads, dumps
 
 
 def upload_datafile(request, *args, **kwargs):
@@ -24,14 +25,34 @@ def upload_datafile(request, *args, **kwargs):
             date = datadetails.get("date_field")
             start_time = datadetails.get("start_time_field")
             end_time = datadetails.get("end_time_field")
+            min_duration = datadetails.get("min_duration_mins")
+            max_duration = datadetails.get("max_duration_mins")
+            categorical_vars = datadetails.get("categorical_fields")
             datafile = request.FILES["file"]
             if datafile:
                 df = pd.read_excel(datafile)
-                res = duplicates(
+                # Duplicate surveys
+                res1 = duplicates(
                     df, respondent_id, surveyor_id, date, start_time, end_time
                 )
+                # Short and long surveys
+                res2, res3 = short_long_surveys(df, respondent_id, surveyor_id, date, 
+                       start_time, end_time, min_duration, max_duration)
+                # Plotting categorical variables
+                categ_vars = get_vars(categorical_vars)
+                categ_charts = {}
+                for var in categ_vars:
+                    categ_charts[var] = loads(prep_categorical_variable(df, var))
+                print(categ_charts)
+                   
                 # Store the result in session
-                request.session["analysis_result"] = res
+                analysis_results = {
+                    "duplicates" : res1.to_html(classes="table table-striped", index=False),
+                    "long_surveys" : res2.to_html(classes="table table-striped", index=False),
+                    "short_surveys": res3.to_html(classes="table table-striped", index=False),
+                    "categorical_charts" : categ_charts
+                }
+                request.session["analysis_results"] = analysis_results
                 # Redirect to the result view
                 return redirect("/analysis-result")
         else:
@@ -45,17 +66,18 @@ def upload_datafile(request, *args, **kwargs):
 
 def analysis_result(request, *args, **kwargs):
     # Retrieve the analysis result from session
-    analysis_result = request.session.get("analysis_result")
+    analysis_results = request.session.get("analysis_results")
 
-    if not analysis_result:
+    if not analysis_results:
         return HttpResponse("No analysis data found.")
 
     # Pass the result to the template context
-    context = {"analysis_result": analysis_result.to_html()}
+    context = {"duplicates": analysis_results["duplicates"],
+               "long_surveys" : analysis_results["long_surveys"],
+               "short_surveys": analysis_results["short_surveys"],
+               "categorical_charts" : analysis_results["categorical_charts"]}
 
-    return HttpResponse(analysis_result.to_html())
-
-    # return render(request, "results.html", context)
+    return render(request, "results.html", context)
 
 
 # class UploadAPIView(APIView):
