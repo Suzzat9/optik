@@ -2,35 +2,83 @@
 
 {% block content %}
 <div class="content-wrapper maximum-width align-center">
-    <div>
-        <h2> Duplicate Surveys </h2>
-        {{ duplicates|safe }}
-    <div>
-        <h2> Surveyor Productivity </h2>
-        <h3> Short Surveys </h3>
-        <div> {{ short_surveys|safe }} </div>
-        <h3> Long Surveys </h3>
-        <div> {{ long_surveys|safe }} </div>
+    <div class="toggle-container">
+        <div class="toggle" data-target="duplicate-surveys">Duplicate Surveys</div>
+        <div class="toggle" data-target="surveyor-productivity">Surveyor Productivity</div>
+        <div class="toggle" data-target="categorical-variables">Categorical Variables</div>
+        <div class="toggle" data-target="numerical-variables">Numerical Variables</div>
     </div>
-    <div class="categorical-vars">
-        {% for key, value in categorical_charts.items %}
-        <div id="{{ key }}">
+    
+    <div id="duplicate-surveys" class="content">
+        <h2>Duplicate Surveys and Survey Length</h2>
+        <div>
+            <h2> Duplicate Surveys </h2>
+            {{ duplicates|safe }}
         </div>
-        {% endfor %}
+        <div>
+            <h2> Survey Length </h2>
+            <h3> Short Surveys </h3>
+            <div> {{ short_surveys|safe }} </div>
+            <h3> Long Surveys </h3>
+            <div> {{ long_surveys|safe }} </div>
+        </div>
     </div>
-    <div>
+
+
+    <div id="surveyor-productivity" class="content">
+        <h2>Surveyor Productivity</h2>
+        <p>Content for Surveyor Productivity goes here.</p>
     </div>
+
+
+    <div id="categorical-variables" class="content">
+        <h2>Categorical Variables</h2>
+        <div class="categorical-vars">
+            {% for key, value in categorical_charts.items %}
+            <div id="chart_{{ value.id }}"> </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div id="numerical-variables" class="content">
+        <h2>Numerical Variables</h2>
+        <p>Content for Numerical Variables goes here.</p>
+    </div>
+
 </div>
+
 {% endblock %}
 
 {% block body_javascript_extra %}
 <script>
     const categData = {{ categorical_charts|safe }};
 
-    Object.keys(categData).forEach(key => {
+    Object.keys(categData).forEach((key, index) => {
         //console.log(key, categData[key]);
-        simpleBar(categData[key], key, key, key,);
+        simpleBar(categData[key]["data"], key, key, `chart_${index}`,);
     });
+
+
+    // Toggles 
+    const toggles = document.querySelectorAll('.toggle');
+    const contents = document.querySelectorAll('.content');
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+        // Remove active class from all toggles and contents
+        toggles.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        // Add active class to clicked toggle and target content
+        toggle.classList.add('active');
+        const targetId = toggle.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // Set default active toggle and content
+    toggles[0].classList.add('active');
+    contents[0].classList.add('active');
         
     
 </script>

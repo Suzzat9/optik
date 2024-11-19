@@ -41,9 +41,10 @@ def upload_datafile(request, *args, **kwargs):
                 # Plotting categorical variables
                 categ_vars = get_vars(categorical_vars)
                 categ_charts = {}
-                for var in categ_vars:
-                    categ_charts[var] = loads(prep_categorical_variable(df, var))
-                print(categ_charts)
+                for i, var in enumerate(categ_vars):
+                    categ_charts[var] = {"id" : i, "data" : loads(prep_categorical_variable(df, var))}
+
+                #print(categ_charts)
                    
                 # Store the result in session
                 analysis_results = {

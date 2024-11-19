@@ -9,6 +9,42 @@ body {
     font-family: "Nunito Sans", sans-serif;
 }
 
+.toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.toggle {
+    background-color: #e0e0e0;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.toggle.active {
+    background-color: #343482;;
+    color: white;
+}
+
+.content {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    width: 95%;
+    text-align: center;
+}
+
+.content.active {
+    display: block;
+}
+
 .purple {
     color: #343482;
 }
@@ -345,3 +381,5 @@ th {
 ul .legend {
     margin-bottom: 10px;
 }
+
+
